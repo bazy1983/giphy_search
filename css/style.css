@@ -16,15 +16,15 @@ header {
 
 .img_result {
     width: 90%;
+    padding: 5%;
 }
 
 .results {
-    width: 85%;
-    float: left;
+    width: 80%;
 }
 
 .history {
-    width: 10%;
+    width: 15%;
     margin-left: 2%;
     border: 1px solid #000;
 }

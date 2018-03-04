@@ -7,9 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/style.css">    
+    <link rel="stylesheet" href="./css/style.css">
     <title>Document</title>
 
 </head>
@@ -17,23 +18,35 @@
 <body>
     <div class="container">
         <header>
-            <label for="dropdown">Result count</label>
-            <select class = "dropdown text-center">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-            </select>
-            <input type="text" placeholder="Search Giphy images">
-            <button class = "btn btn-primary">Search</button>
-            <div class="history">text</div>
+            <div class="controls">
+
+
+                <div class="input-group">
+
+                    <div class="input-group-append">
+                        <select class="dropdown">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="25">25</option>
+                        </select>
+
+                    </div>
+                    <input type="text" class="form-control" placeholder="Search Giphy" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button id = "ajaxRequest" class="btn btn-outline-secondary" type="button">Search</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="history"></div>
         </header>
         <div class="row results">
 
         </div>
-    
-        
+
+
 
     </div>
     <script src="./js/logic.js"> </script>

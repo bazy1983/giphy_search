@@ -6,6 +6,7 @@ $(document).ready(function(){
     $("#ajaxRequest").on("click", function(){
         $(".results").empty();
         textBox = $("input").val().trim(); //getting text box value
+        if (textBox === ""){return false}
         var history = $("<button class = 'ajaxHistory btn btn-success'>").val(textBox).html('<i class="fas fa-times-circle"></i> '+textBox);
         $(".history").append(history);
         $("input").val(""); //remove text from search box
@@ -14,8 +15,8 @@ $(document).ready(function(){
     });
 
     // removes the history button when click on x
-    $(".history").on("click",".ajaxHistory", function(){
-        $(this).remove();
+    $(".history").on("dblclick","i", function(){
+        $(this).parent().remove();
     })
 
     // runs ajax request from history buttons
@@ -28,12 +29,13 @@ $(document).ready(function(){
     $("input").keyup(function(e){
         if (e.keyCode === 13) {
             $(".results").empty();
-        textBox = $("input").val().trim(); //getting text box value
-        var history = $("<button class = 'ajaxHistory btn btn-success'>").val(textBox).html('<i class="fas fa-times-circle"></i> '+textBox);
-        $(".history").append(history);
-        $("input").val(""); //remove text from search box
-        //call ajax function and pass text box value
-        ajaxCall(textBox);
+            textBox = $("input").val().trim(); //getting text box value
+            if (textBox === ""){return false}
+            var history = $("<button class = 'ajaxHistory btn btn-success'>").val(textBox).html('<i class="fas fa-times-circle"></i> '+textBox);
+            $(".history").append(history);
+            $("input").val(""); //remove text from search box
+            //call ajax function and pass text box value
+            ajaxCall(textBox);
         };
     })
 
@@ -48,7 +50,7 @@ $(document).ready(function(){
             url : request
         }).then(function (res){ //response 
             searchResult = res; //store json data
-            console.log (searchResult);
+           
             // display data to document
             for (var i = 0; i < res.data.length; i++){
                 var col = $("<div class = 'img_box col-md-3 col-xs-6'>") //create div

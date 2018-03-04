@@ -13,8 +13,8 @@ $(document).ready(function(){
     });
 
     // removes the history button when click on x
-    $(".history").on("click","i", function(){
-        $(".ajaxHistory").remove();
+    $(".history").on("click",".ajaxHistory", function(){
+        $(this).remove();
     })
 
     // runs ajax request from history buttons

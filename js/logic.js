@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-    var textBox;
+    var textBox,
+        searchResult; // store json data to toggle between images when clicked on
 
     $("#ajaxRequest").on("click", function(){
         $(".results").empty();
@@ -46,20 +47,34 @@ $(document).ready(function(){
             method : "GET",
             url : request
         }).then(function (res){ //response 
-
+            searchResult = res; //store json data
+            console.log (searchResult);
             // display data to document
             for (var i = 0; i < res.data.length; i++){
                 var col = $("<div class = 'img_box col-md-3 col-xs-6'>") //create div
                 var image = $("<img>").attr ({ //create image element with attrbutes
-                    src : res.data[i].images.original.url,
+                    src : res.data[i].images.original_still.url,
+                    value: i,
                     alt : search
                 });
             image.addClass("img_result")
             col.append(image)
             $(".results").append (col)
-            }
+            };
         });
     }
+
+    // toggle between original and still image when clicked on
+    $(".results").on ("click", ".img_result", function(){
+        var imgData = $(this),
+            imgIndex = imgData.attr("value");
+        
+        if (imgData.attr("src") === searchResult.data[imgIndex].images.original_still.url) {
+            imgData.attr("src", searchResult.data[imgIndex].images.original.url);
+        } else {
+            imgData.attr("src", searchResult.data[imgIndex].images.original_still.url)
+        };
+    })
 
 
 });

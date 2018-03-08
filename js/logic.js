@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     //preset buttons added to history div upon document onload
-    var preset = ["wow", "oh", "amazing", "cool"]
+    var preset = ["wow", "oh", "amazing", "cool", "omg"]
     for (var i = 0; i <preset.length; i++){
         //create history button
         var history = $("<button class = 'ajaxHistory btn btn-success'>").val(preset[i]).html('<i class="fas fa-times-circle"></i> '+preset[i]);
@@ -26,9 +26,18 @@ $(document).ready(function(){
     });
 
     // removes the history button when click on x
-    $(".history").on("dblclick","i", function(){
-        $(this).parent().remove();
+    $(".history").on("click","i", function(){
+        var removebtn = $(this).parent();
+        //will call bootstarp modal
+        $('#myModal').modal("show", true);
+        //by clicking on remove, it will remove the history button and hide the modal
+        $("#remove").on("click", function(){
+            removebtn.remove();
+            $('#myModal').modal("hide");
+        });
     })
+
+        
 
     // runs ajax request from history buttons
     $(".history").on("click",".ajaxHistory", function(){
@@ -78,9 +87,10 @@ $(document).ready(function(){
                 col.append(image)
                 $(".results").append(col);
             };
-
+            // build search pagination with numbers
             $(".pagination").empty();
             $(".pageNumber").show();
+            //this will start pagination from the one next to clicked one
             for (x = pagination + 1; x < pagination + 10; x++){
                 var page = $("<span class = 'page'>").text(x);
                 $(".pagination").append(page);

@@ -1,17 +1,28 @@
 $(document).ready(function(){
 
+    //preset buttons added to history div upon document onload
+    var preset = ["wow", "oh", "amazing", "cool"]
+    for (var i = 0; i <preset.length; i++){
+        //create history button
+        var history = $("<button class = 'ajaxHistory btn btn-success'>").val(preset[i]).html('<i class="fas fa-times-circle"></i> '+preset[i]);
+        $(".history").append(history);
+        $("input").val(""); //remove text from search box
+    }
+
+
     var textBox,
+        query, //store input value for pagination event
         searchResult; // store json data to toggle between images when clicked on
 
     $("#ajaxRequest").on("click", function(){
-        $(".results").empty();
+        if ($("input").val() === ""){return false}
         textBox = $("input").val().trim(); //getting text box value
-        if (textBox === ""){return false}
+        query = textBox; //used later on for pagination
         var history = $("<button class = 'ajaxHistory btn btn-success'>").val(textBox).html('<i class="fas fa-times-circle"></i> '+textBox);
         $(".history").append(history);
         $("input").val(""); //remove text from search box
         //call ajax function and pass text box value
-        ajaxCall(textBox);
+        ajaxCall(textBox, 0);
     });
 
     // removes the history button when click on x
@@ -21,36 +32,40 @@ $(document).ready(function(){
 
     // runs ajax request from history buttons
     $(".history").on("click",".ajaxHistory", function(){
-        $(".results").empty();
         var historyBtn = $(this).val();
-        ajaxCall(historyBtn);
+        query = historyBtn; //used later on for pagination
+        ajaxCall(historyBtn, 0);
     })
 
     $("input").keyup(function(e){
         if (e.keyCode === 13) {
-            $(".results").empty();
+            if ($("input").val() === ""){return false} // prevent event from running when empty text
+            
             textBox = $("input").val().trim(); //getting text box value
-            if (textBox === ""){return false}
+            query = textBox; //used later on for pagination
+
+            //create history button
             var history = $("<button class = 'ajaxHistory btn btn-success'>").val(textBox).html('<i class="fas fa-times-circle"></i> '+textBox);
             $(".history").append(history);
             $("input").val(""); //remove text from search box
-            //call ajax function and pass text box value
-            ajaxCall(textBox);
+            //call ajax function and pass text box value 
+            ajaxCall(textBox, 0);
         };
     })
 
-    function ajaxCall (search) {
+    
+    function ajaxCall (search, pagination) {
+        $(".results").empty();//empty out all previous results
         var apiKey = "cnvVfq7XSIKMKEvBcaV7y9oFTHegmF6X",
         resultCount = $(".dropdown option:selected").val(), //number of results
-        request = "http://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=" + apiKey + "&limit=" + resultCount + "&rating=g";
-        
-        //ajax request 
+        request = "http://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=" + apiKey + "&limit=" + resultCount + "&rating=g&offset="+ pagination*resultCount;
+        //AJAX request 
         $.ajax({ 
             method : "GET",
             url : request
         }).then(function (res){ //response 
-            searchResult = res; //store json data
-           
+            searchResult = res; //store json data to toggle between images
+            //console.log(res);
             // display data to document
             for (var i = 0; i < res.data.length; i++){
                 var col = $("<div class = 'img_box col-md-3 col-xs-6'>") //create div
@@ -59,9 +74,16 @@ $(document).ready(function(){
                     value: i,
                     alt : search
                 });
-            image.addClass("img_result")
-            col.append(image)
-            $(".results").append (col)
+                image.addClass("img_result")
+                col.append(image)
+                $(".results").append(col);
+            };
+
+            $(".pagination").empty();
+            $(".pageNumber").show();
+            for (x = pagination + 1; x < pagination + 10; x++){
+                var page = $("<span class = 'page'>").text(x);
+                $(".pagination").append(page);
             };
         });
     }
@@ -77,6 +99,17 @@ $(document).ready(function(){
             imgData.attr("src", searchResult.data[imgIndex].images.original_still.url)
         };
     })
+
+    //pagination
+    $(".pagination").on("click", ".page", function(){
+        var number = $(this).text();
+        number = parseInt(number);
+        ajaxCall(query, number);
+    });
+
+    $("#first").on("click", function(){
+        ajaxCall(query, 0);
+    });
 
 
 });

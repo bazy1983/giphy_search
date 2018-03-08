@@ -16,18 +16,21 @@
 </head>
 
 <body>
+    <div class="giphy p-2 bg-dark">
+        <img src="https://developers.giphy.com/static/img/dev-logo-lg.7404c00322a8.gif" alt="giphy">
+    </div>
     <div class="container">
         <header>
             <div class="controls">
 
-
+                
                 <div class="input-group">
 
                     <div class="input-group-append">
                         <select class="dropdown">
                             <option value="5">5</option>
                             <option value="10">10</option>
-                            <option value="15">15</option>
+                            <option value="15" selected>15</option>
                             <option value="20">20</option>
                             <option value="25">25</option>
                         </select>
@@ -46,10 +49,14 @@
         <div class="row results">
 
         </div>
-
-
-
+        <!-- pagination -->
+        <div class="pageNumber justify-content-center">
+            <span id = "first" class = "page"><i class="fas fa-chevron-left"></i></span>
+            <div class="pagination d-inline"></div>
+        </div>
     </div>
+
+    
     <script src="./js/logic.js"> </script>
 </body>
 

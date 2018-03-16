@@ -67,7 +67,7 @@ $(document).ready(function(){
         $(".results").empty();//empty out all previous results
         var apiKey = "cnvVfq7XSIKMKEvBcaV7y9oFTHegmF6X",
         resultCount = $(".dropdown option:selected").val(), //number of results
-        request = "http://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=" + apiKey + "&limit=" + resultCount + "&rating=g&offset="+ pagination*resultCount;
+        request = "https://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=" + apiKey + "&limit=" + resultCount + "&rating=g&offset="+ pagination*resultCount;
         //AJAX request 
         $.ajax({ 
             method : "GET",
